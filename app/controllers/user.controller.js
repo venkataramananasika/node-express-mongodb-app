@@ -8,7 +8,6 @@ exports.allAccess = async (req, res) => {
   let users = await User.find({},'-password -__v').exec();
   console.log(users);
   res.status(200).send(users);
-  
 };
 
 exports.userBoard = (req, res) => {
