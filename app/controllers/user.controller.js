@@ -1,6 +1,9 @@
 const models = require('./../models');
 const User = models.user;
-
+/**
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.allAccess = async (req, res) => {
   let users = await User.find({},'-password -__v').exec();
   console.log(users);
