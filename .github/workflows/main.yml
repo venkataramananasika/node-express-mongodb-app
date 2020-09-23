@@ -1,0 +1,27 @@
+on:
+  push:
+    branches: [ master ]
+env:
+  MY_NAME: Web Request Action
+jobs:
+  webhook_job:
+    runs-on: ubuntu-latest
+    name: Job to send payload to webhook API
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Webhook API request
+        id: webhook
+        uses: satak/webrequest-action@master
+        with:
+          url: http://localhost:3500/insert/sample/${{ secrets.WEBHOOK_ID }}
+          method: POST
+          payload: '{"name": "${{ env.MY_NAME }}"}'
+          headers: '{"Authentication": "${{ secrets.TOKEN }}"}'
+          username: ${{ secrets.BASIC_AUTH_UN }}
+          password: ${{ secrets.BASIC_AUTH_PW }}
+      - name: Get the output
+        shell: pwsh
+        run: |
+          $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
+          Write-Host "Time from output $($output.time) statusCode $($output.statusCode)"
