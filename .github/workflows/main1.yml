@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  webrequest_test:
+    runs-on: ubuntu-latest
+    name: Test POST and GET web requests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node for testing
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npm test
+      - name: post-request output
+        shell: pwsh
+        run: |
+          $output = '${{ steps.post-request.outputs.output }}' | ConvertFrom-Json
+          Write-Host "Time from output $($output.time) statusCode $($output.statusCode)"
+          $output.statusCode -eq 200
+      - name: GET request
+        id: get-request
+        uses: satak/webrequest-action@master
+        with:
+          url: https://my-json-server.typicode.com/typicode/demo/posts
+          method: GET
+      - name: get-request output
+        shell: pwsh
+        run: |
+          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+          $output.data[0].id -eq 1
