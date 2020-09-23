@@ -20,8 +20,8 @@ jobs:
           headers: '{"Authentication": "${{ secrets.TOKEN }}"}'
           username: ${{ secrets.BASIC_AUTH_UN }}
           password: ${{ secrets.BASIC_AUTH_PW }}
-      - name: Get the output
-        shell: pwsh
-        run: |
-          $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
-          Write-Host "Time from output $($output.time) statusCode $($output.statusCode)"
+      #- name: Get the output
+      #  shell: pwsh
+      #  run: |
+      #    $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
+      #    Write-Host "Time from output $($output.time) statusCode $($output.statusCode)"
