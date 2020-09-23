@@ -14,7 +14,7 @@ jobs:
         id: webhook
         uses: satak/webrequest-action@master
         with:
-          url: http://192.168.0.121:3500/insert/sample/${{ secrets.WEBHOOK_ID }}
+          url: http://localhost:3500/insert/sample/${{ secrets.WEBHOOK_ID }}
           method: POST
           payload: '{"name": "${{ env.MY_NAME }}"}'
           headers: '{"Authentication": "${{ secrets.TOKEN }}"}'
